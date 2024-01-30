@@ -60,6 +60,7 @@
 				"AgregAuxiliar select(mapColumn(",
 				"          {Tipo de Pagamento}",
 				"     ),",
+				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
 				"SelecionarColuna sink(allowSchemaDrift: true,",
