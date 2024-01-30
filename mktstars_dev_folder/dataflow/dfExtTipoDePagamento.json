@@ -15,10 +15,21 @@
 					"name": "Vendas"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtTipoDePagamentoDestino",
+						"type": "DatasetReference"
+					},
+					"name": "TipoPagamentoSilver"
+				}
+			],
 			"transformations": [
 				{
 					"name": "AgregAuxiliar"
+				},
+				{
+					"name": "SelecionarColuna"
 				}
 			],
 			"scriptLines": [
@@ -45,7 +56,22 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> Vendas",
 				"Vendas aggregate(groupBy({Tipo de Pagamento}),",
-				"     {Tipo de Pagamento} = count()) ~> AgregAuxiliar"
+				"     Contagem = count()) ~> AgregAuxiliar",
+				"AgregAuxiliar select(mapColumn(",
+				"          {Tipo de Pagamento}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
+				"SelecionarColuna sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Afiliado as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> TipoPagamentoSilver"
 			]
 		}
 	}

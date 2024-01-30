@@ -21,7 +21,7 @@
 						"referenceName": "dsExtCursosDestino",
 						"type": "DatasetReference"
 					},
-					"name": "Cursos"
+					"name": "CursosSilver"
 				}
 			],
 			"transformations": [],
@@ -44,7 +44,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> Cursos"
+				"     partitionBy('hash', 1)) ~> CursosSilver"
 			]
 		}
 	}
