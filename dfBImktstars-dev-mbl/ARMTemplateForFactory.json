@@ -404,6 +404,41 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dtExtStatusDestino')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "dlMktStars",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "silver"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Tipo de Pagamento",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/dlMktStars')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dlMktStars')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -564,6 +599,92 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dfExtStatus')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsExtVendasHotmartSaida",
+								"type": "DatasetReference"
+							},
+							"name": "Vendas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dtExtStatusDestino",
+								"type": "DatasetReference"
+							},
+							"name": "StatusSilver"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AgregaAuxiliar"
+						},
+						{
+							"name": "SelecionarColuna"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Produto as string,",
+						"          Afiliado as string,",
+						"          {Nome do Produtor} as string,",
+						"          {Documento do Produtor} as string,",
+						"          {Meio de Pagamento} as string,",
+						"          {Preço do Produto} as string,",
+						"          {Preço da Oferta} as string,",
+						"          {Tipo de Pagamento} as string,",
+						"          {Tipo pagamento oferta} as string,",
+						"          Moeda as string,",
+						"          {Número da Parcela} as string,",
+						"          {Recorrência} as string,",
+						"          {Data de Venda} as string,",
+						"          {Data de Confirmação} as string,",
+						"          Status as string,",
+						"          DDD as string,",
+						"          Cidade as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Vendas",
+						"Vendas aggregate(groupBy(Status),",
+						"     Contagem = count(Status)) ~> AgregaAuxiliar",
+						"AgregaAuxiliar select(mapColumn(",
+						"          Status",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
+						"SelecionarColuna sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Tipo de Pagamento} as string",
+						"     ),",
+						"     partitionFileNames:['status.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> StatusSilver"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dtExtStatusDestino')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dfExtTipoDePagamento')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -627,6 +748,7 @@
 						"AgregAuxiliar select(mapColumn(",
 						"          {Tipo de Pagamento}",
 						"     ),",
+						"     partitionBy('hash', 1),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SelecionarColuna",
 						"SelecionarColuna sink(allowSchemaDrift: true,",
@@ -634,11 +756,13 @@
 						"     input(",
 						"          Afiliado as string",
 						"     ),",
+						"     partitionFileNames:['TipoPagamento.csv'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> TipoPagamentoSilver"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> TipoPagamentoSilver"
 					]
 				}
 			},
@@ -646,6 +770,21 @@
 				"[concat(variables('factoryId'), '/datasets/dsExtVendasHotmartSaida')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtTipoDePagamentoDestino')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
