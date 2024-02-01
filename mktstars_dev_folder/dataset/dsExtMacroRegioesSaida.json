@@ -1,0 +1,27 @@
+{
+	"name": "dsExtMacroRegioesSaida",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlMktStars",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1 - Extraction"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Planilha1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Macro Regioes.xlsx",
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
