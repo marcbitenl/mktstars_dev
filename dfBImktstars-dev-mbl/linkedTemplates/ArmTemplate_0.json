@@ -742,9 +742,9 @@
 						"     ignoreNoFilesFound: false) ~> MacroRegioes",
 						"MacroRegioes derive(dddcidadesestado = substring(Column_1,4,400)) ~> dddCidadeEstado",
 						"dddCidadeEstado derive(SplitdddCidadeEstado = split(dddcidadesestado, '–')) ~> SplitdddCidadeEstado",
-						"SplitdddCidadeEstado derive(ddd = SplitdddCidadeEstado[1],",
-						"          cidade = SplitdddCidadeEstado[2],",
-						"          estado = SplitdddCidadeEstado[3]) ~> RegioesSeparadas",
+						"SplitdddCidadeEstado derive(ddd = trim(SplitdddCidadeEstado[1]),",
+						"          cidade = trim(SplitdddCidadeEstado[2]),",
+						"          estado = trim(SplitdddCidadeEstado[3])) ~> RegioesSeparadas",
 						"RegioesSeparadas select(mapColumn(",
 						"          ddd,",
 						"          cidade,",
@@ -966,6 +966,55 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfExtTipoDePagamento')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplMacroRegioes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfMacroRegioes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfMacroRegioes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"MacroRegioes": {},
+									"regioesSilver": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "1 - Extraction"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfMacroRegioes')]"
 			]
 		}
 	]
