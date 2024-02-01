@@ -988,7 +988,7 @@
 						"MacroRegioes derive(dddcidadesestado = substring(Column_1,4,400)) ~> dddCidadeEstado",
 						"dddCidadeEstado derive(SplitdddCidadeEstado = split(dddcidadesestado, '–')) ~> SplitdddCidadeEstado",
 						"SplitdddCidadeEstado derive(ddd = trim(SplitdddCidadeEstado[1]),",
-						"          cidade = trim(SplitdddCidadeEstado[2]),",
+						"          cidade = left(trim(SplitdddCidadeEstado[2]), length(trim(SplitdddCidadeEstado[2]))-1),",
 						"          estado = trim(SplitdddCidadeEstado[3])) ~> RegioesSeparadas",
 						"RegioesSeparadas select(mapColumn(",
 						"          ddd,",
