@@ -888,7 +888,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"name": "[concat(parameters('factoryName'), '/dfMacroRegioes')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -897,15 +897,76 @@
 				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
-					"sources": [],
-					"sinks": [],
-					"transformations": [],
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsExtMacroRegioesSaida",
+								"type": "DatasetReference"
+							},
+							"name": "MacroRegioes"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dsExtMacroRegioesDestino",
+								"type": "DatasetReference"
+							},
+							"name": "regioesSilver"
+						}
+					],
+					"transformations": [
+						{
+							"name": "dddCidadeEstado"
+						},
+						{
+							"name": "SplitdddCidadeEstado"
+						},
+						{
+							"name": "RegioesSeparadas"
+						},
+						{
+							"name": "Selecao"
+						}
+					],
 					"scriptLines": [
-						""
+						"source(output(",
+						"          Column_1 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> MacroRegioes",
+						"MacroRegioes derive(dddcidadesestado = substring(Column_1,4,400)) ~> dddCidadeEstado",
+						"dddCidadeEstado derive(SplitdddCidadeEstado = split(dddcidadesestado, '–')) ~> SplitdddCidadeEstado",
+						"SplitdddCidadeEstado derive(ddd = SplitdddCidadeEstado[1],",
+						"          cidade = SplitdddCidadeEstado[2],",
+						"          estado = SplitdddCidadeEstado[3]) ~> RegioesSeparadas",
+						"RegioesSeparadas select(mapColumn(",
+						"          ddd,",
+						"          cidade,",
+						"          estado",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> Selecao",
+						"Selecao sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Tipo de Pagamento} as string",
+						"     ),",
+						"     partitionFileNames:['regioes.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> regioesSilver"
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegioesSaida')]",
+				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegioesDestino')]"
+			]
 		}
 	]
 }
