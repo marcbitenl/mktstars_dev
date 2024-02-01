@@ -15,7 +15,15 @@
 					"name": "MacroRegioes"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsExtMacroRegioesDestino",
+						"type": "DatasetReference"
+					},
+					"name": "regioesSilver"
+				}
+			],
 			"transformations": [
 				{
 					"name": "dddCidadeEstado"
@@ -24,7 +32,10 @@
 					"name": "SplitdddCidadeEstado"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "RegioesSeparadas"
+				},
+				{
+					"name": "Selecao"
 				}
 			],
 			"scriptLines": [
@@ -38,7 +49,26 @@
 				"dddCidadeEstado derive(SplitdddCidadeEstado = split(dddcidadesestado, '–')) ~> SplitdddCidadeEstado",
 				"SplitdddCidadeEstado derive(ddd = SplitdddCidadeEstado[1],",
 				"          cidade = SplitdddCidadeEstado[2],",
-				"          estado = SplitdddCidadeEstado[3]) ~> derivedColumn1"
+				"          estado = SplitdddCidadeEstado[3]) ~> RegioesSeparadas",
+				"RegioesSeparadas select(mapColumn(",
+				"          ddd,",
+				"          cidade,",
+				"          estado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Selecao",
+				"Selecao sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Tipo de Pagamento} as string",
+				"     ),",
+				"     partitionFileNames:['regioes.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> regioesSilver"
 			]
 		}
 	}
