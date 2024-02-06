@@ -1,9 +1,9 @@
 {
-	"name": "pplSrcAfiliados",
+	"name": "pplScrCursos",
 	"properties": {
 		"activities": [
 			{
-				"name": "dfSrcAfiliados",
+				"name": "dfSrcCursos",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dfSrcAfiliados",
+						"referenceName": "dfSrcCursos",
 						"type": "DataFlowReference"
 					},
 					"compute": {
