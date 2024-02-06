@@ -1,5 +1,5 @@
 {
-	"name": "tblsrcAfiliados",
+	"name": "tblsrcRegioes",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "srvbimarketstar",
@@ -17,13 +17,22 @@
 				"precision": 10
 			},
 			{
-				"name": "Nome",
+				"name": "DDD",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cidade",
+				"type": "varchar"
+			},
+			{
+				"name": "Estado",
 				"type": "varchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "src",
-			"table": "Afiliados"
+			"table": "Regioes"
 		}
 	}
 }

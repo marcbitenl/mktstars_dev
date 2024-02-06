@@ -1,5 +1,5 @@
 {
-	"name": "tblsrcAfiliados",
+	"name": "tblsrcStatus",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "srvbimarketstar",
@@ -23,7 +23,7 @@
 		],
 		"typeProperties": {
 			"schema": "src",
-			"table": "Afiliados"
+			"table": "Status"
 		}
 	}
 }
