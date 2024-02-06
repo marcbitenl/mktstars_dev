@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMktStars'"
 		},
+		"srvbimarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'srvbimarketstar'"
+		},
 		"dlMktStars_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://samktastartsmbl.dfs.core.windows.net/"
@@ -44,6 +48,9 @@
 					},
 					"dlMktStars_accountKey": {
 						"value": "[parameters('dlMktStars_accountKey')]"
+					},
+					"srvbimarketstar_connectionString": {
+						"value": "[parameters('srvbimarketstar_connectionString')]"
 					},
 					"dlMktStars_properties_typeProperties_url": {
 						"value": "[parameters('dlMktStars_properties_typeProperties_url')]"

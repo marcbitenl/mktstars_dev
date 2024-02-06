@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMktStars'"
 		},
+		"srvbimarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'srvbimarketstar'"
+		},
 		"dlMktStars_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://samktastartsmbl.dfs.core.windows.net/"
@@ -779,6 +783,40 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/tblSrcAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "src",
+					"table": "Afiliados"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dlMktStars')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -791,6 +829,19 @@
 						"type": "SecureString",
 						"value": "[parameters('dlMktStars_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/srvbimarketstar')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('srvbimarketstar_connectionString')]"
 				}
 			},
 			"dependsOn": []

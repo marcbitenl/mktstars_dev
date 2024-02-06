@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Cadeia de caracteres segura para 'accountKey' de 'dlMktStars'"
 		},
+		"srvbimarketstar_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadeia de caracteres segura para 'connectionString' de 'srvbimarketstar'"
+		},
 		"dlMktStars_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://samktastartsmbl.dfs.core.windows.net/"
@@ -33,6 +37,19 @@
 						"type": "SecureString",
 						"value": "[parameters('dlMktStars_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/srvbimarketstar')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('srvbimarketstar_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -450,6 +467,40 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/dlMktStars')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblSrcAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "src",
+					"table": "Afiliados"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
 			]
 		},
 		{
@@ -1005,104 +1056,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegioesSaida')]",
 				"[concat(variables('factoryId'), '/datasets/dsExtMacroRegioesDestino')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplExtAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfExTAfiliados",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfExtAfiliados",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Vendas": {},
-									"AfiliadosSilver": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "1 - Extraction"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfExtAfiliados')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplExtCursos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfExtCursos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfExtCursos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CodProdutos": {},
-									"CursosSilver": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "1 - Extraction"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfExtCursos')]"
 			]
 		}
 	]

@@ -8,6 +8,9 @@
 		"dlMktStars_accountKey": {
 			"value": ""
 		},
+		"srvbimarketstar_connectionString": {
+			"value": ""
+		},
 		"dlMktStars_properties_typeProperties_url": {
 			"value": "https://samktastartsmbl.dfs.core.windows.net/"
 		}
