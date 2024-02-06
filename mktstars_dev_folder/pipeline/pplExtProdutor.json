@@ -1,9 +1,9 @@
 {
-	"name": "pplExtVendasHotmart",
+	"name": "pplExtProdutor",
 	"properties": {
 		"activities": [
 			{
-				"name": "dfVendasHotmart",
+				"name": "dfExtProdutor",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dfExtVendasHotmart",
+						"referenceName": "dfExtProdutor",
 						"type": "DataFlowReference"
 					},
 					"compute": {
