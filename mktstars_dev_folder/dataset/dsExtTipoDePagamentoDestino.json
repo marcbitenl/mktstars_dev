@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "TipoPagamento.csv",
 				"fileSystem": "silver"
 			},
 			"columnDelimiter": ",",

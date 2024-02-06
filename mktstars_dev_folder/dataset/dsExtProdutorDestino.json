@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "produtor.csv",
 				"fileSystem": "silver"
 			},
 			"columnDelimiter": ",",
