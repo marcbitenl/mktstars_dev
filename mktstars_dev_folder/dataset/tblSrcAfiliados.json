@@ -1,0 +1,29 @@
+{
+	"name": "tblSrcAfiliados",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "srvbimarketstar",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "2 - Stage"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nome",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "src",
+			"table": "Afiliados"
+		}
+	}
+}
