@@ -564,6 +564,104 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pplSrcStatus')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfSrcStatus",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfSrcStatus",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfSrcStatus')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplSrcTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfSrcTipoPagamento",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfSrcTipoPagamento",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DLSilver": {},
+									"srcDestino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfSrcTipoPagamento')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dsExtAfiliadosDestino')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -976,6 +1074,301 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/dlMktStars')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Afiliados"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgCursos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CodProdOrigine",
+						"type": "varchar"
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Cursos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgProdutor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Produtor"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgRegioes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DDD",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Cidade",
+						"type": "varchar"
+					},
+					{
+						"name": "Estado",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Regioes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "Status"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblStgTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2 - Stage"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					},
+					{
+						"name": "DataInicio",
+						"type": "date"
+					},
+					{
+						"name": "DataFim",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "stg",
+					"table": "TipoPagamento"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
 			]
 		},
 		{
@@ -2100,52 +2493,65 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pplSrcStatus')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/dfSrcTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "dfSrcStatus",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfSrcStatus",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DLSilver": {},
-									"srcDestino": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
 				"folder": {
 					"name": "2 - Stage"
 				},
-				"annotations": []
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsExtTipoDePagamentoDestino",
+								"type": "DatasetReference"
+							},
+							"name": "DLSilver"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblsrcTipoPagamento",
+								"type": "DatasetReference"
+							},
+							"name": "srcDestino"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          {Tipo de Pagamento} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> DLSilver",
+						"DLSilver sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Nome = {Tipo de Pagamento}",
+						"     )) ~> srcDestino"
+					]
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfSrcStatus')]"
+				"[concat(variables('factoryId'), '/datasets/dsExtTipoDePagamentoDestino')]",
+				"[concat(variables('factoryId'), '/datasets/tblsrcTipoPagamento')]"
 			]
 		}
 	]
