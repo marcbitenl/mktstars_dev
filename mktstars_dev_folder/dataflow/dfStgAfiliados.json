@@ -22,7 +22,15 @@
 					"name": "Stage"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tblStgAfiliados",
+						"type": "DatasetReference"
+					},
+					"name": "StageNew"
+				}
+			],
 			"transformations": [
 				{
 					"name": "ClassSource"
@@ -35,6 +43,18 @@
 				},
 				{
 					"name": "NewStage"
+				},
+				{
+					"name": "Ativos"
+				},
+				{
+					"name": "JoinLeft"
+				},
+				{
+					"name": "DataIni"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -64,7 +84,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> NewSource",
-				"Stage sort(asc(BK, true)) ~> ClassStage",
+				"Ativos sort(asc(BK, true)) ~> ClassStage",
 				"ClassStage select(mapColumn(",
 				"          Id_STG = Id,",
 				"          BK_STG = BK,",
@@ -73,7 +93,38 @@
 				"          DataFim_STG = DataFim",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> NewStage"
+				"     skipDuplicateMapOutputs: true) ~> NewStage",
+				"Stage filter(isNull(DataFim)) ~> Ativos",
+				"NewSource, NewStage join(Id_SRC == BK_STG,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinLeft",
+				"JoinLeft derive(dataStartEnd = currentTimestamp()) ~> DataIni",
+				"DataIni split(IsNull(BK_STG),",
+				"     disjoint: false) ~> split1@(NovasRegistros)",
+				"split1@NovasRegistros sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          BK = Id_SRC,",
+				"          Nome = Nome_SRC,",
+				"          DataInicio = dataStartEnd",
+				"     )) ~> StageNew"
 			]
 		}
 	}
