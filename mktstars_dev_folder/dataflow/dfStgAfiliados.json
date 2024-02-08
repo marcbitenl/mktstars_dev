@@ -101,7 +101,7 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinLeft",
 				"JoinLeft derive(dataStartEnd = currentTimestamp()) ~> DataIni",
-				"DataIni split(IsNull(BK_STG),",
+				"DataIni split(isNull(BK_STG),",
 				"     disjoint: false) ~> split1@(NovasRegistros)",
 				"split1@NovasRegistros sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
