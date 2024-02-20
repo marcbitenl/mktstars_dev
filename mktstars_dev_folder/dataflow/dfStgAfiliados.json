@@ -36,6 +36,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "StageUpdate"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblStgAfiliados",
+						"type": "DatasetReference"
+					},
+					"name": "StageInativar"
 				}
 			],
 			"transformations": [
@@ -62,6 +69,9 @@
 				},
 				{
 					"name": "split1"
+				},
+				{
+					"name": "AlterarLinha1"
 				}
 			],
 			"scriptLines": [
@@ -107,10 +117,12 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinLeft",
-				"JoinLeft derive(dataStartEnd = currentTimestamp()) ~> DataIni",
+				"JoinLeft derive(dataStartEnd = toDate(currentTimestamp())) ~> DataIni",
 				"DataIni split(isNull(BK_STG),",
 				"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-				"     disjoint: false) ~> split1@(NovasRegistros, Update)",
+				"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
+				"     disjoint: true) ~> split1@(NovasRegistros, Update, Inativar)",
+				"split1@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG))) ~> AlterarLinha1",
 				"split1@NovasRegistros sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -154,7 +166,31 @@
 				"          BK = Id_SRC,",
 				"          Nome = Nome_SRC,",
 				"          DataInicio = dataStartEnd",
-				"     )) ~> StageUpdate"
+				"     )) ~> StageUpdate",
+				"AlterarLinha1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['Id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Id = Id_STG,",
+				"          BK = BK_STG,",
+				"          Nome = Nome_STG,",
+				"          DataFim = dataStartEnd",
+				"     )) ~> StageInativar"
 			]
 		}
 	}
