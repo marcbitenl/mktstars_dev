@@ -556,7 +556,8 @@
 									"Source": {},
 									"Stage": {},
 									"StageNew": {},
-									"StageUpdate": {}
+									"StageUpdate": {},
+									"StageInativar": {}
 								}
 							},
 							"staging": {},
