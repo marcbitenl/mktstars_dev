@@ -31,6 +31,10 @@
 					"name": "StageNew"
 				},
 				{
+					"dataset": {
+						"referenceName": "tblStgCursos",
+						"type": "DatasetReference"
+					},
 					"name": "StageUpdate"
 				},
 				{
@@ -122,7 +126,7 @@
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     (Id_SRC == BK_STG) && (Nome_SRC != Nome_STG),",
 				"     disjoint: true) ~> NovosRegistros@(NovosRegistros, Update, Inativar)",
-				"NovosRegistros@Inativar alterRow(updateIf((Id_SRC == BK_STG) && (Nome_SRC != Nome_STG))) ~> alterRow1",
+				"NovosRegistros@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> alterRow1",
 				"NovosRegistros@NovosRegistros sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -149,8 +153,22 @@
 				"     )) ~> StageNew",
 				"NovosRegistros@Update sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          CodProdOrigine as string,",
+				"          Nome as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          BK = Id_SRC,",
 				"          CodProdOrigine,",
@@ -171,6 +189,7 @@
 				"     insertable:false,",
 				"     updateable:true,",
 				"     upsertable:false,",
+				"     keys:['Id'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
