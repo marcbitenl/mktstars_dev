@@ -3974,7 +3974,7 @@
 						"     (Id_SRC == BK_STG) && (DDD_SRC != DDD_STG || Cidade_SRC != Cidade_STG || Estado_SRC != Estado_STG),",
 						"     (Id_SRC == BK_STG) && (DDD_SRC != DDD_STG || Cidade_SRC != Cidade_STG || Estado_SRC != Estado_STG),",
 						"     disjoint: true) ~> NovosRegistros@(NovosRegistros, Update, Inativar)",
-						"NovosRegistros@Inativar alterRow(updateIf((Id_SRC == BK_STG) && (DDD_SRC != DDD_STG || Cidade_SRC != Cidade_STG || Estado_SRC != Estado_STG))) ~> alterRow1",
+						"NovosRegistros@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(DDD_SRC!=DDD_STG||Cidade_SRC!=Cidade_STG||Estado_SRC!=Estado_STG))) ~> alterRow1",
 						"NovosRegistros@NovosRegistros sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -4114,6 +4114,371 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfstgRegiao')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dAfiliados"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreCursos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "varchar"
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dCursos"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreProdutor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dProdutor"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreRegioes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DDD",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Cidade",
+						"type": "varchar"
+					},
+					{
+						"name": "Estado",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dRegioes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dStatus"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dTipoPagamento"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srvbimarketstar')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgAfiliados",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreAfiliados",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativos"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativos",
+						"Ativos sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as integer,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          Nome",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/tblStgAfiliados')]",
+				"[concat(variables('factoryId'), '/datasets/tblpreAfiliados')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplpreAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfpreAfiliados",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfpreAfiliados",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Source": {},
+									"Destino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfpreAfiliados')]"
 			]
 		}
 	]

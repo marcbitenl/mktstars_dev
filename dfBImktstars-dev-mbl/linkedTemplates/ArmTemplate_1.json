@@ -150,6 +150,236 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/tblpreAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dAfiliados"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreCursos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "varchar"
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dCursos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreProdutor')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dProdutor"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreRegioes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DDD",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Cidade",
+						"type": "varchar"
+					},
+					{
+						"name": "Estado",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dRegioes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreTipoPagamento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dTipoPagamento"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dfExtAfiliados')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -863,799 +1093,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/tblsrcProdutor')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfSrcRegiao')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dsExtMacroRegioesDestino",
-								"type": "DatasetReference"
-							},
-							"name": "DLSilver"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcRegioes",
-								"type": "DatasetReference"
-							},
-							"name": "srcDestino"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          ddd as integer,",
-						"          cidade as string,",
-						"          estado as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          DDD as integer,",
-						"          Cidade as string,",
-						"          Estado as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          DDD = ddd,",
-						"          Cidade = cidade,",
-						"          Estado = estado",
-						"     )) ~> srcDestino"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcRegioes')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfSrcStatus')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dtExtStatusDestino",
-								"type": "DatasetReference"
-							},
-							"name": "DLSilver"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcStatus",
-								"type": "DatasetReference"
-							},
-							"name": "srcDestino"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          Status as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Nome = Status",
-						"     )) ~> srcDestino"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcStatus')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfSrcTipoPagamento')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dsExtTipoDePagamentoDestino",
-								"type": "DatasetReference"
-							},
-							"name": "DLSilver"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcTipoPagamento",
-								"type": "DatasetReference"
-							},
-							"name": "srcDestino"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          {Tipo de Pagamento} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Nome = {Tipo de Pagamento}",
-						"     )) ~> srcDestino"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcTipoPagamento')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfStgAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "Stage"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblStgAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "StageNew"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "StageUpdate"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "StageInativar"
-						}
-					],
-					"transformations": [
-						{
-							"name": "ClassSource"
-						},
-						{
-							"name": "NewSource"
-						},
-						{
-							"name": "ClassStage"
-						},
-						{
-							"name": "NewStage"
-						},
-						{
-							"name": "Ativos"
-						},
-						{
-							"name": "JoinLeft"
-						},
-						{
-							"name": "DataStartEnd"
-						},
-						{
-							"name": "split1"
-						},
-						{
-							"name": "AlterarLinha1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Stage",
-						"Source sort(asc(Id, true)) ~> ClassSource",
-						"ClassSource select(mapColumn(",
-						"          Id_SRC = Id,",
-						"          Nome_SRC = Nome",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewSource",
-						"Ativos sort(asc(BK, true)) ~> ClassStage",
-						"ClassStage select(mapColumn(",
-						"          Id_STG = Id,",
-						"          BK_STG = BK,",
-						"          Nome_STG = Nome,",
-						"          DataInicio_STG = DataInicio,",
-						"          DataFim_STG = DataFim",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewStage",
-						"Stage filter(isNull(DataFim)) ~> Ativos",
-						"NewSource, NewStage join(Id_SRC == BK_STG,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> JoinLeft",
-						"JoinLeft derive(dataStartEnd = toDate(currentTimestamp())) ~> DataStartEnd",
-						"DataStartEnd split(isNull(BK_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     disjoint: true) ~> split1@(NovasRegistros, Update, Inativar)",
-						"split1@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarLinha1",
-						"split1@NovasRegistros sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageNew",
-						"split1@Update sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageUpdate",
-						"AlterarLinha1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:true,",
-						"     upsertable:false,",
-						"     keys:['Id'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Id = Id_STG,",
-						"          BK = BK_STG,",
-						"          Nome = Nome_STG,",
-						"          DataFim = dataStartEnd",
-						"     )) ~> StageInativar"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfStgProdutor')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "Stage"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblStgProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "StageNew"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "StageUpdate"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "StageInativar"
-						}
-					],
-					"transformations": [
-						{
-							"name": "ClassSource"
-						},
-						{
-							"name": "NewSource"
-						},
-						{
-							"name": "ClassStage"
-						},
-						{
-							"name": "NewStage"
-						},
-						{
-							"name": "Ativos"
-						},
-						{
-							"name": "JoinLeft"
-						},
-						{
-							"name": "DataStartEnd"
-						},
-						{
-							"name": "split1"
-						},
-						{
-							"name": "AlterarLinha1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Stage",
-						"Source sort(asc(Id, true)) ~> ClassSource",
-						"ClassSource select(mapColumn(",
-						"          Id_SRC = Id,",
-						"          Nome_SRC = Nome",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewSource",
-						"Ativos sort(asc(BK, true)) ~> ClassStage",
-						"ClassStage select(mapColumn(",
-						"          Id_STG = Id,",
-						"          BK_STG = BK,",
-						"          Nome_STG = Nome,",
-						"          DataInicio_STG = DataInicio,",
-						"          DataFim_STG = DataFim",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewStage",
-						"Stage filter(isNull(DataFim)) ~> Ativos",
-						"NewSource, NewStage join(Id_SRC == BK_STG,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> JoinLeft",
-						"JoinLeft derive(dataStartEnd = toDate(currentTimestamp())) ~> DataStartEnd",
-						"DataStartEnd split(isNull(BK_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     disjoint: true) ~> split1@(NovasRegistros, Update, Inativar)",
-						"split1@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarLinha1",
-						"split1@NovasRegistros sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageNew",
-						"split1@Update sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageUpdate",
-						"AlterarLinha1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:true,",
-						"     upsertable:false,",
-						"     keys:['Id'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Id = Id_STG,",
-						"          BK = BK_STG,",
-						"          Nome = Nome_STG,",
-						"          DataFim = dataStartEnd",
-						"     )) ~> StageInativar"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcProdutor')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfStgStatus')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcStatus",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgStatus",
-								"type": "DatasetReference"
-							},
-							"name": "Stage"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblStgStatus",
-								"type": "DatasetReference"
-							},
-							"name": "StageNew"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgStatus",
-								"type": "DatasetReference"
-							},
-							"name": "StageUpdate"
-						},
-						{
-							"dataset": {
-								"referenceName": "tblStgStatus",
-								"type": "DatasetReference"
-							},
-							"name": "StageInativar"
-						}
-					],
-					"transformations": [
-						{
-							"name": "ClassSource"
-						},
-						{
-							"name": "NewSource"
-						},
-						{
-							"name": "ClassStage"
-						},
-						{
-							"name": "NewStage"
-						},
-						{
-							"name": "Ativos"
-						},
-						{
-							"name": "JoinLeft"
-						},
-						{
-							"name": "DataStartEnd"
-						},
-						{
-							"name": "split1"
-						},
-						{
-							"name": "AlterarLinha1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Stage",
-						"Source sort(asc(Id, true)) ~> ClassSource",
-						"ClassSource select(mapColumn(",
-						"          Id_SRC = Id,",
-						"          Nome_SRC = Nome",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewSource",
-						"Ativos sort(asc(BK, true)) ~> ClassStage",
-						"ClassStage select(mapColumn(",
-						"          Id_STG = Id,",
-						"          BK_STG = BK,",
-						"          Nome_STG = Nome,",
-						"          DataInicio_STG = DataInicio,",
-						"          DataFim_STG = DataFim",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NewStage",
-						"Stage filter(isNull(DataFim)) ~> Ativos",
-						"NewSource, NewStage join(Id_SRC == BK_STG,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> JoinLeft",
-						"JoinLeft derive(dataStartEnd = toDate(currentTimestamp())) ~> DataStartEnd",
-						"DataStartEnd split(isNull(BK_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     (Id_SRC==BK_STG)&&(Nome_SRC != Nome_STG),",
-						"     disjoint: true) ~> split1@(NovasRegistros, Update, Inativar)",
-						"split1@Inativar alterRow(updateIf((Id_SRC==BK_STG)&&(Nome_SRC!=Nome_STG))) ~> AlterarLinha1",
-						"split1@NovasRegistros sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageNew",
-						"split1@Update sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Id_SRC,",
-						"          Nome = Nome_SRC,",
-						"          DataInicio = dataStartEnd",
-						"     )) ~> StageUpdate",
-						"AlterarLinha1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:true,",
-						"     upsertable:false,",
-						"     keys:['Id'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Id = Id_STG,",
-						"          BK = BK_STG,",
-						"          Nome = Nome_STG,",
-						"          DataFim = dataStartEnd",
-						"     )) ~> StageInativar"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcStatus')]"
 			]
 		}
 	]
