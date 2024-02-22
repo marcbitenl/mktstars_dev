@@ -996,6 +996,368 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dfpreAfiliados')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgAfiliados",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreAfiliados",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativos"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativos",
+						"Ativos sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as integer,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          Nome",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreCursos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgCursos",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreCursos",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativo"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          CodProdOrigine as string,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativo",
+						"Ativo sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as string,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          Nome",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreProdutor')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreProdutor",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativos"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativos",
+						"Ativos sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as integer,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          Nome",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreRegioes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreRegioes",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativos"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativos",
+						"Ativos sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as integer,",
+						"          DDD as integer,",
+						"          Cidade as string,",
+						"          Estado as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          DDD,",
+						"          Cidade,",
+						"          Estado",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreStatus')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "tblStgStatus",
+								"type": "DatasetReference"
+							},
+							"name": "Source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreStatus",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Ativos"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as integer,",
+						"          BK as integer,",
+						"          Nome as string,",
+						"          DataInicio as date,",
+						"          DataFim as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Source",
+						"Source filter(isNull(DataFim)) ~> Ativos",
+						"Ativos sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          SK as integer,",
+						"          BK as integer,",
+						"          Nome as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          BK,",
+						"          Nome",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dfstgCursos')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1428,297 +1790,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfpreAfiliados')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3 - Presentation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblStgAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblpreAfiliados",
-								"type": "DatasetReference"
-							},
-							"name": "Destino"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Ativos"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"Source filter(isNull(DataFim)) ~> Ativos",
-						"Ativos sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SK as integer,",
-						"          BK as integer,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK,",
-						"          Nome",
-						"     )) ~> Destino"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfpreCursos')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3 - Presentation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblStgCursos",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblpreCursos",
-								"type": "DatasetReference"
-							},
-							"name": "Destino"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Ativo"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          CodProdOrigine as string,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"Source filter(isNull(DataFim)) ~> Ativo",
-						"Ativo sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SK as integer,",
-						"          BK as string,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK,",
-						"          Nome",
-						"     )) ~> Destino"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfpreProdutor')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3 - Presentation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblStgProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblpreProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "Destino"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Ativos"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          Nome as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"Source filter(isNull(DataFim)) ~> Ativos",
-						"Ativos sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SK as integer,",
-						"          BK as integer,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK,",
-						"          Nome",
-						"     )) ~> Destino"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfpreRegioes')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3 - Presentation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "tblStgRegioes",
-								"type": "DatasetReference"
-							},
-							"name": "Source"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblpreRegioes",
-								"type": "DatasetReference"
-							},
-							"name": "Destino"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Ativos"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          Id as integer,",
-						"          BK as integer,",
-						"          DDD as integer,",
-						"          Cidade as string,",
-						"          Estado as string,",
-						"          DataInicio as date,",
-						"          DataFim as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source",
-						"Source filter(isNull(DataFim)) ~> Ativos",
-						"Ativos sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          SK as integer,",
-						"          BK as integer,",
-						"          DDD as integer,",
-						"          Cidade as string,",
-						"          Estado as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK,",
-						"          DDD,",
-						"          Cidade,",
-						"          Estado",
-						"     )) ~> Destino"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/pplExtAfiliados')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1979,53 +2050,6 @@
 								"datasetParameters": {
 									"Vendas": {},
 									"TipoPagamentoSilver": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "1 - Extraction"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pplExtVendasHotmart')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfVendasHotmart",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfExtVendasHotmart",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"vendasHotmartSaida": {},
-									"vendasHotmartDestino": {}
 								}
 							},
 							"staging": {},

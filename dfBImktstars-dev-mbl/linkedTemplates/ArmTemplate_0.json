@@ -765,7 +765,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tblsrcAfiliados')]",
+			"name": "[concat(parameters('factoryName'), '/tblpreAfiliados')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -774,13 +774,18 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "2 - Stage"
+					"name": "3 - Presentation"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "Id",
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
 						"type": "int",
 						"precision": 10
 					},
@@ -790,8 +795,8 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "src",
-					"table": "Afiliados"
+					"schema": "pre",
+					"table": "dAfiliados"
 				}
 			},
 			"dependsOn": [
@@ -799,7 +804,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tblsrcCursos')]",
+			"name": "[concat(parameters('factoryName'), '/tblpreCursos')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -808,13 +813,13 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "2 - Stage"
+					"name": "3 - Presentation"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "Id",
+						"name": "SK",
 						"type": "int",
 						"precision": 10
 					},
@@ -828,8 +833,8 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "src",
-					"table": "Cursos"
+					"schema": "pre",
+					"table": "dCursos"
 				}
 			},
 			"dependsOn": [
