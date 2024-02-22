@@ -1,43 +1,54 @@
 {
-	"name": "dfSrcRegioes",
+	"name": "dfpreRegioes",
 	"properties": {
 		"folder": {
-			"name": "2 - Stage"
+			"name": "3 - Presentation"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "dsExtMacroRegioesDestino",
+						"referenceName": "tblStgRegioes",
 						"type": "DatasetReference"
 					},
-					"name": "DLSilver"
+					"name": "Source"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "tblsrcRegioes",
+						"referenceName": "tblpreRegioes",
 						"type": "DatasetReference"
 					},
-					"name": "srcDestino"
+					"name": "Destino"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "Ativos"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
-				"          ddd as integer,",
-				"          cidade as string,",
-				"          estado as string",
+				"          Id as integer,",
+				"          BK as integer,",
+				"          DDD as integer,",
+				"          Cidade as string,",
+				"          Estado as string,",
+				"          DataInicio as date,",
+				"          DataFim as date",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> DLSilver",
-				"DLSilver sink(allowSchemaDrift: true,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Source",
+				"Source filter(isNull(DataFim)) ~> Ativos",
+				"Ativos sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          Id as integer,",
+				"          SK as integer,",
+				"          BK as integer,",
 				"          DDD as integer,",
 				"          Cidade as string,",
 				"          Estado as string",
@@ -52,10 +63,11 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          DDD = ddd,",
-				"          Cidade = cidade,",
-				"          Estado = estado",
-				"     )) ~> srcDestino"
+				"          BK,",
+				"          DDD,",
+				"          Cidade,",
+				"          Estado",
+				"     )) ~> Destino"
 			]
 		}
 	}

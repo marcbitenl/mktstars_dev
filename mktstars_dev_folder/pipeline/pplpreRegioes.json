@@ -1,9 +1,9 @@
 {
-	"name": "pplSrcRegiao",
+	"name": "pplpreRegioes",
 	"properties": {
 		"activities": [
 			{
-				"name": "dfSrcRegiao",
+				"name": "dfpreRegioes",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dfSrcRegioes",
+						"referenceName": "dfpreRegioes",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -28,7 +28,7 @@
 			}
 		],
 		"folder": {
-			"name": "2 - Stage"
+			"name": "3 - Presentation"
 		},
 		"annotations": []
 	}
