@@ -1,0 +1,43 @@
+{
+	"name": "tblpreRegioes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "srvbimarketstar",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3 - Presentation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BK",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DDD",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cidade",
+				"type": "varchar"
+			},
+			{
+				"name": "Estado",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "pre",
+			"table": "dRegioes"
+		}
+	}
+}

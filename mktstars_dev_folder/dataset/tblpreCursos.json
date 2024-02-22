@@ -1,0 +1,33 @@
+{
+	"name": "tblpreCursos",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "srvbimarketstar",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3 - Presentation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BK",
+				"type": "varchar"
+			},
+			{
+				"name": "Nome",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "pre",
+			"table": "dCursos"
+		}
+	}
+}
