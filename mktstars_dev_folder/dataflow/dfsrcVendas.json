@@ -20,9 +20,52 @@
 						"type": "DatasetReference"
 					},
 					"name": "srcAfiliados"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcCursos",
+						"type": "DatasetReference"
+					},
+					"name": "srcCursos"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcProdutor",
+						"type": "DatasetReference"
+					},
+					"name": "srcProdutor"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcRegioes",
+						"type": "DatasetReference"
+					},
+					"name": "srcRegioes"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcStatus",
+						"type": "DatasetReference"
+					},
+					"name": "srcStatus"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcTipoPagamento",
+						"type": "DatasetReference"
+					},
+					"name": "srcTipoPagamento"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsfatVendas",
+						"type": "DatasetReference"
+					},
+					"name": "GoldVendas"
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectAfiliados"
@@ -32,6 +75,39 @@
 				},
 				{
 					"name": "joinAfiliados"
+				},
+				{
+					"name": "selectCursos"
+				},
+				{
+					"name": "joinCursos"
+				},
+				{
+					"name": "selectProdutor"
+				},
+				{
+					"name": "joinProdutor"
+				},
+				{
+					"name": "selectRegioes"
+				},
+				{
+					"name": "joinRegioes"
+				},
+				{
+					"name": "selectStatus"
+				},
+				{
+					"name": "JoinStatus"
+				},
+				{
+					"name": "selectTipoPagamento"
+				},
+				{
+					"name": "joinTipoPagamento"
+				},
+				{
+					"name": "selectFinal"
 				}
 			],
 			"scriptLines": [
@@ -65,6 +141,49 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> srcAfiliados",
+				"source(output(",
+				"          Id as integer,",
+				"          BK as string,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcCursos",
+				"source(output(",
+				"          Id as integer,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcProdutor",
+				"source(output(",
+				"          Id as integer,",
+				"          DDD as integer,",
+				"          Cidade as string,",
+				"          Estado as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcRegioes",
+				"source(output(",
+				"          Id as integer,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcStatus",
+				"source(output(",
+				"          Id as integer,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcTipoPagamento",
 				"srcAfiliados select(mapColumn(",
 				"          Id_Afiliados = Id,",
 				"          Nome_Afiliados = Nome",
@@ -81,7 +200,8 @@
 				"          {Vendas_Número da Parcela} = {Número da Parcela},",
 				"          {Vendas_Data de Venda} = {Data de Venda},",
 				"          Vendas_Status = Status,",
-				"          Vendas_Cidade = Cidade",
+				"          Vendas_Cidade = Cidade,",
+				"          Vendas_DDD = DDD",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectVendas",
@@ -89,7 +209,84 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joinAfiliados"
+				"     broadcast: 'auto')~> joinAfiliados",
+				"srcCursos select(mapColumn(",
+				"          Id_Cursos = Id,",
+				"          Nome_Cursos = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectCursos",
+				"joinAfiliados, selectCursos join(Vendas_Produto == Nome_Cursos,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinCursos",
+				"srcProdutor select(mapColumn(",
+				"          Id_Produtor = Id,",
+				"          Nome_Produtor = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectProdutor",
+				"joinCursos, selectProdutor join({Vendas_Nome do Produtor} == Nome_Produtor,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinProdutor",
+				"srcRegioes select(mapColumn(",
+				"          Id_Regiao = Id,",
+				"          DDD_Regiao = DDD,",
+				"          Cidade_Regiao = Cidade,",
+				"          Estado_Regiao = Estado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectRegioes",
+				"joinProdutor, selectRegioes join(Vendas_DDD == toString(DDD_Regiao),",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinRegioes",
+				"srcStatus select(mapColumn(",
+				"          Id_Status = Id,",
+				"          Nome_Status = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectStatus",
+				"joinRegioes, selectStatus join(Vendas_Status == Nome_Status,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinStatus",
+				"srcTipoPagamento select(mapColumn(",
+				"          Id_TipoPagamento = Id,",
+				"          Nome_TipoPagamento = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectTipoPagamento",
+				"JoinStatus, selectTipoPagamento join({Vendas_Tipo de Pagamento} == Nome_TipoPagamento,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinTipoPagamento",
+				"joinTipoPagamento select(mapColumn(",
+				"          {Preço do Produto},",
+				"          {Vendas_Número da Parcela},",
+				"          {Vendas_Data de Venda},",
+				"          Id_Afiliados,",
+				"          Id_Cursos,",
+				"          Id_Produtor,",
+				"          Id_Regiao,",
+				"          Id_Status,",
+				"          Id_TipoPagamento",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectFinal",
+				"selectFinal sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> GoldVendas"
 			]
 		}
 	}
