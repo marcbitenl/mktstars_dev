@@ -1,0 +1,27 @@
+{
+	"name": "pplsrcVendasGold",
+	"properties": {
+		"activities": [
+			{
+				"name": "pplsrcVendas",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplsrcVendas",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "5 - Orquestrador"
+		},
+		"annotations": []
+	}
+}
