@@ -1,0 +1,142 @@
+{
+	"name": "pplSrcStage",
+	"properties": {
+		"activities": [
+			{
+				"name": "pplsrcAfiliados",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplSrcAfiliados",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pplsrcCursos",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pplsrcAfiliados",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplScrCursos",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pplsrcProdutor",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pplsrcCursos",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplSrcProdutor",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pplsrcRegiao",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pplsrcProdutor",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplSrcRegiao",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pplSrcTipoPagamento",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pplsrcStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplSrcTipoPagamento",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pplsrcStatus",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pplsrcRegiao",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplSrcStatus",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "5 - Orquestrador"
+		},
+		"annotations": []
+	}
+}
