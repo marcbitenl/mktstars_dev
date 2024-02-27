@@ -1,0 +1,27 @@
+{
+	"name": "pplCargaCompleta",
+	"properties": {
+		"activities": [
+			{
+				"name": "pplExtraction",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplExtraction",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "5 - Orquestrador/Pipeline - Carga Completa"
+		},
+		"annotations": []
+	}
+}
