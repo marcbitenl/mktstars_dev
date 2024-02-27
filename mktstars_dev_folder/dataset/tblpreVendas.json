@@ -47,20 +47,14 @@
 				"precision": 10
 			},
 			{
-				"name": "IdTempo",
-				"type": "char"
-			},
-			{
 				"name": "ValorProduto",
 				"type": "money",
 				"precision": 19,
 				"scale": 4
 			},
 			{
-				"name": "ValorOferta",
-				"type": "money",
-				"precision": 19,
-				"scale": 4
+				"name": "Data de Venda",
+				"type": "date"
 			},
 			{
 				"name": "QtdParcelas",
