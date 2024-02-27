@@ -1,0 +1,27 @@
+{
+	"name": "pplpreFatoVendas",
+	"properties": {
+		"activities": [
+			{
+				"name": "pplPreVendas",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pplpreVendas",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "5 - Orquestrador"
+		},
+		"annotations": []
+	}
+}
