@@ -13,6 +13,42 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/tblpreCursos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3 - Presentation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SK",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BK",
+						"type": "varchar"
+					},
+					{
+						"name": "Nome",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "dCursos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/tblpreProdutor')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -165,6 +201,85 @@
 				"typeProperties": {
 					"schema": "pre",
 					"table": "dTipoPagamento"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tblpreVendas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srvbimarketstar",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4 - Fact"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdProdutor",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdCurso",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdAfiliado",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdTipoPagamento",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdStatus",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdRegioes",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IdTempo",
+						"type": "char"
+					},
+					{
+						"name": "ValorProduto",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "ValorOferta",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "QtdParcelas",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "pre",
+					"table": "fVendas"
 				}
 			},
 			"dependsOn": []
@@ -967,131 +1082,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/tblsrcAfiliados')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfSrcCursos')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dsExtCursosDestino",
-								"type": "DatasetReference"
-							},
-							"name": "DLSilver"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcCursos",
-								"type": "DatasetReference"
-							},
-							"name": "srcDestino"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          Cod as string,",
-						"          {Nome Novo} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          BK as string,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          BK = Cod,",
-						"          Nome = {Nome Novo}",
-						"     )) ~> srcDestino"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcCursos')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfSrcProdutor')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2 - Stage"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dsExtProdutorDestino",
-								"type": "DatasetReference"
-							},
-							"name": "DLSilver"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tblsrcProdutor",
-								"type": "DatasetReference"
-							},
-							"name": "srcDestino"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          {Nome do produtor} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> DLSilver",
-						"DLSilver sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          Id as integer,",
-						"          Nome as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          Nome = {Nome do produtor}",
-						"     )) ~> srcDestino"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/tblsrcProdutor')]"
 			]
 		}
 	]
