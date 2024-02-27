@@ -2356,20 +2356,14 @@
 						"precision": 10
 					},
 					{
-						"name": "IdTempo",
-						"type": "char"
-					},
-					{
 						"name": "ValorProduto",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "ValorOferta",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
+						"name": "Data de Venda",
+						"type": "date"
 					},
 					{
 						"name": "QtdParcelas",
@@ -5575,6 +5569,141 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/tblsrcRegioes')]",
 				"[concat(variables('factoryId'), '/datasets/tblStgRegioes')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfpreVendas')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "4 - Fact"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dsfatVendas",
+								"type": "DatasetReference"
+							},
+							"name": "goldVendas"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tblpreVendas",
+								"type": "DatasetReference"
+							},
+							"name": "Destino"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          {Preço do Produto} as decimal(10,0),",
+						"          {Vendas_Número da Parcela} as integer,",
+						"          {Vendas_Data de Venda} as date,",
+						"          Id_Afiliados as integer,",
+						"          Id_Cursos as integer,",
+						"          Id_Produtor as integer,",
+						"          Id_Regiao as integer,",
+						"          Id_Status as integer,",
+						"          Id_TipoPagamento as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> goldVendas",
+						"goldVendas sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Id as integer,",
+						"          IdProdutor as integer,",
+						"          IdCurso as integer,",
+						"          IdAfiliado as integer,",
+						"          IdTipoPagamento as integer,",
+						"          IdStatus as integer,",
+						"          IdRegioes as integer,",
+						"          ValorProduto as decimal(19,4),",
+						"          {Data de Venda} as date,",
+						"          QtdParcelas as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          IdProdutor = Id_Produtor,",
+						"          IdCurso = Id_Cursos,",
+						"          IdAfiliado = Id_Afiliados,",
+						"          IdTipoPagamento = Id_TipoPagamento,",
+						"          IdStatus = Id_Status,",
+						"          IdRegioes = Id_Regiao,",
+						"          ValorProduto = {Preço do Produto},",
+						"          {Data de Venda} = {Vendas_Data de Venda},",
+						"          QtdParcelas = {Vendas_Número da Parcela}",
+						"     )) ~> Destino"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dsfatVendas')]",
+				"[concat(variables('factoryId'), '/datasets/tblpreVendas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplpreVendas')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfPreVendas",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfpreVendas",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"goldVendas": {},
+									"Destino": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "4 - Fact"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfpreVendas')]"
 			]
 		}
 	]
