@@ -5118,11 +5118,13 @@
 						"     skipDuplicateMapOutputs: true) ~> selectFinal",
 						"selectFinal sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['fvendas.csv'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> GoldVendas"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> GoldVendas"
 					]
 				}
 			},
