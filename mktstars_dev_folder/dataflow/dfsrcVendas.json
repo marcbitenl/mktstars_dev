@@ -1,0 +1,96 @@
+{
+	"name": "dfsrcVendas",
+	"properties": {
+		"folder": {
+			"name": "4 - Fact"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsExtVendasHotmartSaida",
+						"type": "DatasetReference"
+					},
+					"name": "Silver"
+				},
+				{
+					"dataset": {
+						"referenceName": "tblsrcAfiliados",
+						"type": "DatasetReference"
+					},
+					"name": "srcAfiliados"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectAfiliados"
+				},
+				{
+					"name": "selectVendas"
+				},
+				{
+					"name": "joinAfiliados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Produto as string,",
+				"          Afiliado as string,",
+				"          {Nome do Produtor} as string,",
+				"          {Documento do Produtor} as string,",
+				"          {Meio de Pagamento} as string,",
+				"          {Preço do Produto} as string,",
+				"          {Preço da Oferta} as string,",
+				"          {Tipo de Pagamento} as string,",
+				"          {Tipo pagamento oferta} as string,",
+				"          Moeda as string,",
+				"          {Número da Parcela} as string,",
+				"          {Recorrência} as string,",
+				"          {Data de Venda} as string,",
+				"          {Data de Confirmação} as string,",
+				"          Status as string,",
+				"          DDD as string,",
+				"          Cidade as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Silver",
+				"source(output(",
+				"          Id as integer,",
+				"          Nome as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcAfiliados",
+				"srcAfiliados select(mapColumn(",
+				"          Id_Afiliados = Id,",
+				"          Nome_Afiliados = Nome",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectAfiliados",
+				"Silver select(mapColumn(",
+				"          Vendas_Produto = Produto,",
+				"          Vendas_Afiliado = Afiliado,",
+				"          {Vendas_Nome do Produtor} = {Nome do Produtor},",
+				"          {Preço do Produto},",
+				"          {Vendas_Tipo de Pagamento} = {Tipo de Pagamento},",
+				"          {Vendas_Tipo pagamento oferta} = {Tipo pagamento oferta},",
+				"          {Vendas_Número da Parcela} = {Número da Parcela},",
+				"          {Vendas_Data de Venda} = {Data de Venda},",
+				"          Vendas_Status = Status,",
+				"          Vendas_Cidade = Cidade",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectVendas",
+				"selectVendas, selectAfiliados join(Vendas_Afiliado == Nome_Afiliados,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinAfiliados"
+			]
+		}
+	}
+}
