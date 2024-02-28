@@ -1016,6 +1016,166 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pplsrcVendas')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pplCargaCompleta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "pplExtraction",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplExtraction",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "pplSrcStage",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "pplExtraction",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplSrcStage",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "pplSrcVendasGold",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "pplSrcStage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplsrcVendasGold",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "pplStgStage",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "pplSrcVendasGold",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplsrcVendasGold",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "pplprePresentation",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "pplStgStage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplPrePresentation",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "pplpreFatoVendas",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "pplprePresentation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pplpreFatoVendas",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "5 - Orquestrador/Pipeline - Carga Completa"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pplExtraction')]",
+				"[concat(variables('factoryId'), '/pipelines/pplSrcStage')]",
+				"[concat(variables('factoryId'), '/pipelines/pplsrcVendasGold')]",
+				"[concat(variables('factoryId'), '/pipelines/pplPrePresentation')]",
+				"[concat(variables('factoryId'), '/pipelines/pplpreFatoVendas')]"
+			]
 		}
 	]
 }
